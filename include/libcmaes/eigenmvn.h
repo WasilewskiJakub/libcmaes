@@ -33,7 +33,7 @@
 #ifndef __EIGENMULTIVARIATENORMAL_HPP
 #define __EIGENMULTIVARIATENORMAL_HPP
 
-#include <Eigen/Dense>
+#include <eigen3/Eigen/Dense>
 #include <random>
 #include <stdexcept>
 
@@ -46,7 +46,7 @@
 */
 namespace Eigen {
   namespace internal {
-    template<typename Scalar>
+    template<typename Scalar, typename RandomGenerator>
       class scalar_normal_dist_op
       {
 private:
@@ -90,11 +90,11 @@ public:
     Find the eigen-decomposition of the covariance matrix
     and then store it for sampling from a multi-variate normal 
   */
-  template<typename Scalar>
+  template<typename Scalar, typename RandomGenerator = std::mt19937>
     class EigenMultivariateNormal
   {
     Matrix< Scalar, Dynamic, 1> _mean;
-    internal::scalar_normal_dist_op<Scalar> randN; // Gaussian functor
+    internal::scalar_normal_dist_op<Scalar, RandomGenerator> randN; // Gaussian functor
     bool _use_cholesky;
 
   public:
