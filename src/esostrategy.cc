@@ -27,6 +27,7 @@
 #include <iostream>
 #include <numeric>
 #include <libcmaes/llogging.h>
+#include <random>
 
 #ifdef HAVE_DEBUG
 #include <chrono>
@@ -38,8 +39,8 @@ namespace libcmaes
     return (T(0) < val) - (val < T(0));
   }
 
-  template<class TParameters,class TSolutions,class TStopCriteria>
-  ESOStrategy<TParameters,TSolutions,TStopCriteria>::ESOStrategy(FitFunc &func,
+  template<class TParameters,class TSolutions,class TStopCriteria, class Rng>
+  ESOStrategy<TParameters,TSolutions,TStopCriteria, Rng>::ESOStrategy(FitFunc &func,
 								 TParameters &parameters)
     :_func(func),_nevals(0),_niter(0),_parameters(parameters)
   {
@@ -58,8 +59,8 @@ namespace libcmaes
       }
   }
 
-  template<class TParameters,class TSolutions,class TStopCriteria>
-  ESOStrategy<TParameters,TSolutions,TStopCriteria>::ESOStrategy(FitFunc &func,
+  template<class TParameters,class TSolutions,class TStopCriteria, class Rng>
+  ESOStrategy<TParameters,TSolutions,TStopCriteria, Rng>::ESOStrategy(FitFunc &func,
 								 TParameters &parameters,
 								 const TSolutions &solutions)
     :_func(func),_nevals(0),_niter(0),_parameters(parameters)
@@ -74,13 +75,13 @@ namespace libcmaes
       }
   }
   
-  template<class TParameters,class TSolutions,class TStopCriteria>
-  ESOStrategy<TParameters,TSolutions,TStopCriteria>::~ESOStrategy()
+  template<class TParameters,class TSolutions,class TStopCriteria, class Rng>
+  ESOStrategy<TParameters,TSolutions,TStopCriteria, Rng>::~ESOStrategy()
   {
   }
   
-  template<class TParameters,class TSolutions,class TStopCriteria>
-  void ESOStrategy<TParameters,TSolutions,TStopCriteria>::eval(const dMat &candidates,
+  template<class TParameters,class TSolutions,class TStopCriteria, class Rng>
+  void ESOStrategy<TParameters,TSolutions,TStopCriteria, Rng>::eval(const dMat &candidates,
 							       const dMat &phenocandidates)
   {
 #ifdef HAVE_DEBUG
@@ -148,22 +149,22 @@ namespace libcmaes
 #endif
   }
 
-  template<class TParameters,class TSolutions,class TStopCriteria>
-  void ESOStrategy<TParameters,TSolutions,TStopCriteria>::inc_iter()
+  template<class TParameters,class TSolutions,class TStopCriteria, class Rng>
+  void ESOStrategy<TParameters,TSolutions,TStopCriteria, Rng>::inc_iter()
   {
     _niter++;
     _solutions._niter++;
   }
 
-  template<class TParameters,class TSolutions,class TStopCriteria>
-  void ESOStrategy<TParameters,TSolutions,TStopCriteria>::update_fevals(const int &evals)
+  template<class TParameters,class TSolutions,class TStopCriteria, class Rng>
+  void ESOStrategy<TParameters,TSolutions,TStopCriteria, Rng>::update_fevals(const int &evals)
   {
     _nevals += evals;
     _solutions._nevals += evals;
   }
 
-  template<class TParameters,class TSolutions,class TStopCriteria>
-  dVec ESOStrategy<TParameters,TSolutions,TStopCriteria>::gradf(const dVec &x)
+  template<class TParameters,class TSolutions,class TStopCriteria, class Rng>
+  dVec ESOStrategy<TParameters,TSolutions,TStopCriteria, Rng>::gradf(const dVec &x)
   {
     if (_gfunc != nullptr)
       return _gfunc(x.data(),_parameters._dim);
@@ -183,15 +184,15 @@ namespace libcmaes
     return vgradf;
   }
 
-  template<class TParameters,class TSolutions,class TStopCriteria>
-  dVec ESOStrategy<TParameters,TSolutions,TStopCriteria>::gradgp(const dVec &x) const
+  template<class TParameters,class TSolutions,class TStopCriteria, class Rng>
+  dVec ESOStrategy<TParameters,TSolutions,TStopCriteria, Rng>::gradgp(const dVec &x) const
   {
     dVec epsilon = 1e-8 * (dVec::Constant(_parameters._dim,1.0) + x.cwiseAbs());
     return (_parameters._gp.pheno(dVec(x+epsilon))-_parameters._gp.pheno(dVec(x-epsilon))).cwiseQuotient(2.0*epsilon);
   }
   
-  template<class TParameters,class TSolutions,class TStopCriteria>
-  double ESOStrategy<TParameters,TSolutions,TStopCriteria>::edm()
+  template<class TParameters,class TSolutions,class TStopCriteria, class Rng>
+  double ESOStrategy<TParameters,TSolutions,TStopCriteria, Rng>::edm()
   {
     int n = _parameters._dim;
     double edm = n / (10.0*(sqrt(_parameters._lambda / 4.0 + 0.5)-1));
@@ -208,8 +209,8 @@ namespace libcmaes
     return edm;
   }
 
-  template<class TParameters,class TSolutions,class TStopCriteria>
-  void ESOStrategy<TParameters,TSolutions,TStopCriteria>::uncertainty_handling()
+  template<class TParameters,class TSolutions,class TStopCriteria, class Rng>
+  void ESOStrategy<TParameters,TSolutions,TStopCriteria, Rng>::uncertainty_handling()
   {
     std::sort(_solutions._candidates_uh.begin(),
 	      _solutions._candidates_uh.end(),
@@ -322,8 +323,8 @@ namespace libcmaes
     _solutions._candidates = ncandidates;
   }
 
-  template<class TParameters,class TSolutions,class TStopCriteria>
-  void ESOStrategy<TParameters,TSolutions,TStopCriteria>::perform_uh(const dMat& candidates, const dMat& phenocandidates, int& nfcalls)
+  template<class TParameters,class TSolutions,class TStopCriteria, class Rng>
+  void ESOStrategy<TParameters,TSolutions,TStopCriteria, Rng>::perform_uh(const dMat& candidates, const dMat& phenocandidates, int& nfcalls)
 	{
 		dMat candidates_uh;
 		select_candidates_uh(candidates, phenocandidates, candidates_uh);
@@ -332,8 +333,8 @@ namespace libcmaes
 		set_candidates_uh(nvcandidates);
 	}
 
-  template<class TParameters,class TSolutions,class TStopCriteria>
-  void ESOStrategy<TParameters,TSolutions,TStopCriteria>::select_candidates_uh(const dMat& candidates, const dMat& phenocandidates, dMat& candidates_uh)
+  template<class TParameters,class TSolutions,class TStopCriteria, class Rng>
+  void ESOStrategy<TParameters,TSolutions,TStopCriteria, Rng>::select_candidates_uh(const dMat& candidates, const dMat& phenocandidates, dMat& candidates_uh)
 	{
 	// compute the number of solutions to re-evaluate
 	_solutions._lambda_reev = 0.0;
@@ -357,8 +358,8 @@ namespace libcmaes
 	candidates_uh += _parameters._epsuh * _solutions._sigma * _uhesolver.samples_ind(_solutions._lambda_reev);
 	}
 
-  template<class TParameters,class TSolutions,class TStopCriteria>
-  void ESOStrategy<TParameters,TSolutions,TStopCriteria>::eval_candidates_uh(const dMat& candidates, const dMat& candidates_uh, std::vector<RankedCandidate>& nvcandidates, int& nfcalls)
+  template<class TParameters,class TSolutions,class TStopCriteria, class Rng>
+  void ESOStrategy<TParameters,TSolutions,TStopCriteria, Rng>::eval_candidates_uh(const dMat& candidates, const dMat& candidates_uh, std::vector<RankedCandidate>& nvcandidates, int& nfcalls)
 	{
 	// re-evaluate
 	for (int r=0;r<candidates.cols();r++)
@@ -373,14 +374,14 @@ namespace libcmaes
 	  }
 	}
 
-  template<class TParameters,class TSolutions,class TStopCriteria>
-  void ESOStrategy<TParameters,TSolutions,TStopCriteria>::set_candidates_uh(const std::vector<RankedCandidate>& nvcandidates)
+  template<class TParameters,class TSolutions,class TStopCriteria, class Rng>
+  void ESOStrategy<TParameters,TSolutions,TStopCriteria, Rng>::set_candidates_uh(const std::vector<RankedCandidate>& nvcandidates)
 	{
 	_solutions._candidates_uh = nvcandidates;
 	}
   
-  template<class TParameters,class TSolutions,class TStopCriteria>
-  void ESOStrategy<TParameters,TSolutions,TStopCriteria>::tpa_update()
+  template<class TParameters,class TSolutions,class TStopCriteria, class Rng>
+  void ESOStrategy<TParameters,TSolutions,TStopCriteria, Rng>::tpa_update()
   {
     int r1 = -1;
     int r2 = -1;
@@ -404,14 +405,14 @@ namespace libcmaes
       + _parameters._tpa_csigma * rank_diff / (_parameters._lambda - 1.0);
   }
   
-  template<class TParameters,class TSolutions,class TStopCriteria>
-  Candidate ESOStrategy<TParameters,TSolutions,TStopCriteria>::best_solution() const
+  template<class TParameters,class TSolutions,class TStopCriteria, class Rng>
+  Candidate ESOStrategy<TParameters,TSolutions,TStopCriteria, Rng>::best_solution() const
   {
     return _solutions.best_candidate();
   }
 
-  template class CMAES_EXPORT ESOStrategy<CMAParameters<GenoPheno<NoBoundStrategy>>,CMASolutions,CMAStopCriteria<GenoPheno<NoBoundStrategy>> >;
-  template class CMAES_EXPORT ESOStrategy<CMAParameters<GenoPheno<pwqBoundStrategy>>,CMASolutions,CMAStopCriteria<GenoPheno<pwqBoundStrategy>> >;
-  template class CMAES_EXPORT ESOStrategy<CMAParameters<GenoPheno<NoBoundStrategy,linScalingStrategy>>,CMASolutions,CMAStopCriteria<GenoPheno<NoBoundStrategy,linScalingStrategy>> >;
-  template class CMAES_EXPORT ESOStrategy<CMAParameters<GenoPheno<pwqBoundStrategy,linScalingStrategy>>,CMASolutions,CMAStopCriteria<GenoPheno<pwqBoundStrategy,linScalingStrategy>> >;
+  template class CMAES_EXPORT ESOStrategy<CMAParameters<GenoPheno<NoBoundStrategy>>,CMASolutions,CMAStopCriteria<GenoPheno<NoBoundStrategy>>, std::mt19937 >;
+  template class CMAES_EXPORT ESOStrategy<CMAParameters<GenoPheno<pwqBoundStrategy>>,CMASolutions,CMAStopCriteria<GenoPheno<pwqBoundStrategy>>, std::mt19937 >;
+  template class CMAES_EXPORT ESOStrategy<CMAParameters<GenoPheno<NoBoundStrategy,linScalingStrategy>>,CMASolutions,CMAStopCriteria<GenoPheno<NoBoundStrategy,linScalingStrategy>>, std::mt19937 >;
+  template class CMAES_EXPORT ESOStrategy<CMAParameters<GenoPheno<pwqBoundStrategy,linScalingStrategy>>,CMASolutions,CMAStopCriteria<GenoPheno<pwqBoundStrategy,linScalingStrategy>>, std::mt19937 >;
 }

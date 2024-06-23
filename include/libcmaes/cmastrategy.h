@@ -31,6 +31,7 @@
 #include <libcmaes/vdcmaupdate.h>
 #include <libcmaes/eigenmvn.h>
 #include <fstream>
+#include <random>
 
 namespace libcmaes
 {
@@ -41,8 +42,8 @@ namespace libcmaes
    * Hansen, N. (2009). Benchmarking a BI-Population CMA-ES on the BBOB-2009 Function Testbed. Workshop Proceedings of the GECCO Genetic and Evolutionary Computation Conference, ACM, pp. 2389-2395
    * See https://www.lri.fr/~hansen/publications.html for more information.
    */
-  template <class TCovarianceUpdate,class TGenoPheno=GenoPheno<NoBoundStrategy>>
-    class CMAES_EXPORT CMAStrategy : public ESOStrategy<CMAParameters<TGenoPheno>,CMASolutions,CMAStopCriteria<TGenoPheno> >
+  template <class TCovarianceUpdate,class TGenoPheno=GenoPheno<NoBoundStrategy>, class Rng = std::mt19937>
+    class CMAES_EXPORT CMAStrategy : public ESOStrategy<CMAParameters<TGenoPheno>,CMASolutions,CMAStopCriteria<TGenoPheno>, Rng>
     {
     public:
       /**
@@ -109,9 +110,9 @@ namespace libcmaes
        */
     int optimize()
     {
-      return optimize(std::bind(&ESOStrategy<CMAParameters<TGenoPheno>,CMASolutions,CMAStopCriteria<TGenoPheno>>::eval,this,std::placeholders::_1,std::placeholders::_2),
-		      std::bind(&CMAStrategy<TCovarianceUpdate,TGenoPheno>::ask,this),
-		      std::bind(&CMAStrategy<TCovarianceUpdate,TGenoPheno>::tell,this));
+      return optimize(std::bind(&ESOStrategy<CMAParameters<TGenoPheno>,CMASolutions,CMAStopCriteria<TGenoPheno>, Rng>::eval,this,std::placeholders::_1,std::placeholders::_2),
+		      std::bind(&CMAStrategy<TCovarianceUpdate,TGenoPheno, Rng>::ask,this),
+		      std::bind(&CMAStrategy<TCovarianceUpdate,TGenoPheno, Rng>::tell,this));
     }
 
       /**

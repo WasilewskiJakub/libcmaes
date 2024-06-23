@@ -48,7 +48,7 @@ using PlotFunc = std::function<int(const TParameters &, const TSolutions &,
  *        Every algorithm in libcmaes descends from this class, and bring
  *        its functionalities to an ESOptimizer object.
  */
-template <class TParameters, class TSolutions, class TStopCriteria>
+template <class TParameters, class TSolutions, class TStopCriteria, class Rng>
 class CMAES_EXPORT ESOStrategy {
 public:
   /**
