@@ -29,7 +29,7 @@
 namespace libcmaes
 {
   template <class TCovarianceUpdate, class TGenoPheno>
-  BIPOPCMAStrategy<TCovarianceUpdate,TGenoPheno>::BIPOPCMAStrategy(FitFunc &func,
+  BIPOPCMAStrategy<TCovarianceUpdate,TGenoPheno>::BIPOPCMAStrategy(const FitFunc &func,
 								   CMAParameters<TGenoPheno> &parameters)
     :IPOPCMAStrategy<TCovarianceUpdate,TGenoPheno>(func,parameters),_lambda_def(parameters._lambda),_lambda_l(parameters._lambda)
   {
@@ -45,7 +45,7 @@ namespace libcmaes
   }
 
   template <class TCovarianceUpdate, class TGenoPheno>
-  BIPOPCMAStrategy<TCovarianceUpdate,TGenoPheno>::BIPOPCMAStrategy(FitFunc &func,
+  BIPOPCMAStrategy<TCovarianceUpdate,TGenoPheno>::BIPOPCMAStrategy(const FitFunc &func,
 								   CMAParameters<TGenoPheno> &parameters,
 								   const CMASolutions &solutions)
     :IPOPCMAStrategy<TCovarianceUpdate,TGenoPheno>(func,parameters,solutions),_lambda_def(parameters._lambda),_lambda_l(parameters._lambda)

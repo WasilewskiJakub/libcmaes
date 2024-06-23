@@ -42,7 +42,7 @@ namespace libcmaes
      * @param func objective function to minimize
      * @param parameters stochastic search parameters
      */
-    BIPOPCMAStrategy(FitFunc &func,
+    BIPOPCMAStrategy(const FitFunc &func,
 		     CMAParameters<TGenoPheno> &parameters);
 
     /**
@@ -51,7 +51,7 @@ namespace libcmaes
      * @param parameters stochastic search parameters
      * @param solutions solution to start search from
      */
-    BIPOPCMAStrategy(FitFunc &func,
+    BIPOPCMAStrategy(const FitFunc &func,
 		     CMAParameters<TGenoPheno> &parameters,
 		     const CMASolutions &solutions);
     

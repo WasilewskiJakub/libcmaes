@@ -61,7 +61,7 @@ public:
    * @param func function to minimize
    * @param parameters optimization parameters
    */
-  ESOStrategy(FitFunc &func, TParameters &parameters);
+  ESOStrategy(const FitFunc &func, TParameters &parameters);
 
   /**
    * \brief constructor for starting from an existing solution.
@@ -69,7 +69,7 @@ public:
    * @param parameters stochastic search parameters
    * @param solution solution object to start from
    */
-  ESOStrategy(FitFunc &func, TParameters &parameters,
+  ESOStrategy(const FitFunc &func, TParameters &parameters,
               const TSolutions &solutions);
 
 protected:
@@ -271,10 +271,10 @@ protected:
                                     solution if not the final one. */
 
 private:
-  std::mt19937
+  Rng
       _uhgen; /**< random device used for uncertainty handling operations. */
   std::uniform_real_distribution<> _uhunif;
-  Eigen::EigenMultivariateNormal<double> _uhesolver;
+  Eigen::EigenMultivariateNormal<double, Rng> _uhesolver;
 };
 
 } // namespace libcmaes

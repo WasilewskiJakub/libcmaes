@@ -28,6 +28,7 @@
 #include <libcmaes/llogging.h>
 #include <libcmaes/opti_err.h>
 #include <random>
+#include <libcmaes/rng_exports.h>
 
 namespace libcmaes {
 
@@ -130,7 +131,7 @@ CMAStrategy<TCovarianceUpdate, TGenoPheno, Rng>::CMAStrategy()
 
 template <class TCovarianceUpdate, class TGenoPheno, class Rng>
 CMAStrategy<TCovarianceUpdate, TGenoPheno, Rng>::CMAStrategy(
-    FitFunc &func, CMAParameters<TGenoPheno> &parameters)
+    const FitFunc &func, CMAParameters<TGenoPheno> &parameters)
     : ESOStrategy<CMAParameters<TGenoPheno>, CMASolutions,
                   CMAStopCriteria<TGenoPheno>, Rng>(func, parameters) {
   eostrat<TGenoPheno, Rng>::_pfunc = _defaultPFunc;
@@ -139,7 +140,7 @@ CMAStrategy<TCovarianceUpdate, TGenoPheno, Rng>::CMAStrategy(
   else
     eostrat<TGenoPheno, Rng>::_pffunc =
         &fpfuncdef_full_impl<TCovarianceUpdate, TGenoPheno>;
-  _esolver = Eigen::EigenMultivariateNormal<double>(
+  _esolver = Eigen::EigenMultivariateNormal<double, Rng>(
       false, eostrat<TGenoPheno, Rng>::_parameters
                  ._seed); // seeding the multivariate normal generator.
   LOG_IF(INFO, !eostrat<TGenoPheno, Rng>::_parameters._quiet)
@@ -165,7 +166,7 @@ CMAStrategy<TCovarianceUpdate, TGenoPheno, Rng>::CMAStrategy(
 
 template <class TCovarianceUpdate, class TGenoPheno, class Rng>
 CMAStrategy<TCovarianceUpdate, TGenoPheno, Rng>::CMAStrategy(
-    FitFunc &func, CMAParameters<TGenoPheno> &parameters,
+    const FitFunc &func, CMAParameters<TGenoPheno> &parameters,
     const CMASolutions &cmasols)
     : ESOStrategy<CMAParameters<TGenoPheno>, CMASolutions,
                   CMAStopCriteria<TGenoPheno>, Rng>(func, parameters, cmasols) {
@@ -522,7 +523,18 @@ void CMAStrategy<TCovarianceUpdate, TGenoPheno, Rng>::plot() {
                                eostrat<TGenoPheno, Rng>::_solutions, *_fplotstream);
 }
 
-template class CMAStrategy<CovarianceUpdate, GenoPheno<NoBoundStrategy>>;
+template class CMAStrategy<CovarianceUpdate, GenoPheno<NoBoundStrategy>, std::mt19937>;
+template class CMAStrategy<CovarianceUpdate, GenoPheno<NoBoundStrategy>, std::mt19937_64>;
+
+template class CMAStrategy<CovarianceUpdate, GenoPheno<NoBoundStrategy>, std::ranlux24_base>;
+template class CMAStrategy<CovarianceUpdate, GenoPheno<NoBoundStrategy>, std::ranlux48_base>;
+template class CMAStrategy<CovarianceUpdate, GenoPheno<NoBoundStrategy>, std::ranlux24>;
+template class CMAStrategy<CovarianceUpdate, GenoPheno<NoBoundStrategy>, std::ranlux48>;
+template class CMAStrategy<CovarianceUpdate, GenoPheno<NoBoundStrategy>, std::knuth_b>;
+template class CMAStrategy<CovarianceUpdate, GenoPheno<NoBoundStrategy>, std::minstd_rand>;
+template class CMAStrategy<CovarianceUpdate, GenoPheno<NoBoundStrategy>, std::minstd_rand0>;
+
+
 template class CMAStrategy<ACovarianceUpdate, GenoPheno<NoBoundStrategy>>;
 template class CMAStrategy<VDCMAUpdate, GenoPheno<NoBoundStrategy>>;
 template class CMAStrategy<CovarianceUpdate, GenoPheno<pwqBoundStrategy>>;

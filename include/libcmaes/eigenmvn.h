@@ -51,7 +51,7 @@
 */
 namespace Eigen {
 namespace internal {
-template <typename Scalar, typename Rng = std::mt19937>
+template <typename Scalar, typename Rng>
 class scalar_normal_dist_op {
 private:
   void swap(scalar_normal_dist_op &other) {
@@ -60,7 +60,7 @@ private:
   }
 
 public:
-  inline static std::mt19937 rng; // The uniform pseudo-random algorithm
+  inline static Rng rng; // The uniform pseudo-random algorithm
   mutable std::normal_distribution<Scalar> norm; // gaussian combinator
 
   EIGEN_EMPTY_STRUCT_CTOR(scalar_normal_dist_op)
@@ -83,8 +83,8 @@ public:
   inline void seed(const uint64_t &s) { rng.seed(s); }
 };
 
-template <typename Scalar>
-struct functor_traits<scalar_normal_dist_op<Scalar>> {
+template <typename Scalar, typename Rng>
+struct functor_traits<scalar_normal_dist_op<Scalar, Rng>> {
   enum {
     Cost = 50 * NumTraits<Scalar>::MulCost,
     PacketAccess = false,
@@ -98,7 +98,7 @@ struct functor_traits<scalar_normal_dist_op<Scalar>> {
   Find the eigen-decomposition of the covariance matrix
   and then store it for sampling from a multi-variate normal
 */
-template <typename Scalar, typename Rng = std::mt19937>
+template <typename Scalar, typename Rng>
 class EigenMultivariateNormal {
   Matrix<Scalar, Dynamic, 1> _mean;
   internal::scalar_normal_dist_op<Scalar, Rng>
@@ -125,14 +125,14 @@ public:
 
 public:
   EigenMultivariateNormal(const bool &use_cholesky = false,
-                          const uint64_t &seed = std::mt19937::default_seed)
+                          const uint64_t &seed = 420)
       : _use_cholesky(use_cholesky) {
     randN.seed(seed);
   }
   EigenMultivariateNormal(const Matrix<Scalar, Dynamic, 1> &mean,
                           const Matrix<Scalar, Dynamic, Dynamic> &covar,
                           const bool &use_cholesky = false,
-                          const uint64_t &seed = std::mt19937::default_seed)
+                          const uint64_t &seed = 420)
       : _use_cholesky(use_cholesky) {
     randN.seed(seed);
     setMean(mean);

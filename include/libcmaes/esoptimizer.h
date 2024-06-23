@@ -84,7 +84,7 @@ namespace libcmaes
        * @param func function to minimize
        * @param parameters optimization parameters
        */
-      ESOptimizer(FitFunc &func,
+      ESOptimizer(const FitFunc &func,
 		  TParameters &parameters)
 	:TESOStrategy(func,parameters)
 	{
@@ -96,7 +96,7 @@ namespace libcmaes
        * @param parameters optimization parameters
        * @param solution solution to start from
        */
-      ESOptimizer(FitFunc &func,
+      ESOptimizer(const FitFunc &func,
 		  TParameters &parameters,
 		  const TSolutions &solution)
 	:TESOStrategy(func,parameters,solution)

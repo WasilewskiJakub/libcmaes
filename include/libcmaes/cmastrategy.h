@@ -56,7 +56,7 @@ namespace libcmaes
        * @param func objective function to minimize
        * @param parameters stochastic search parameters
        */
-      CMAStrategy(FitFunc &func,
+      CMAStrategy(const FitFunc &func,
 		  CMAParameters<TGenoPheno> &parameters);
 
       /**
@@ -65,7 +65,7 @@ namespace libcmaes
        * @param parameters stochastic search parameters
        * @param cmasols solution object to start from
        */
-      CMAStrategy(FitFunc &func,
+      CMAStrategy(const FitFunc &func,
 		  CMAParameters<TGenoPheno> &parameters,
 		  const CMASolutions &cmasols);
     
@@ -122,7 +122,7 @@ namespace libcmaes
       void plot();
     
     protected:
-      Eigen::EigenMultivariateNormal<double> _esolver;  /**< multivariate normal distribution sampler, and eigendecomposition solver. */
+      Eigen::EigenMultivariateNormal<double, Rng> _esolver;  /**< multivariate normal distribution sampler, and eigendecomposition solver. */
       CMAStopCriteria<TGenoPheno> _stopcriteria; /**< holds the set of termination criteria, see reference paper. */
       std::ofstream *_fplotstream = nullptr; /**< plotting file stream, not in parameters because of copy-constructor hell. */
     

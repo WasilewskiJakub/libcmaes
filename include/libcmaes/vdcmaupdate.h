@@ -25,6 +25,7 @@
 #include <libcmaes/cmaparameters.h>
 #include <libcmaes/cmasolutions.h>
 #include <libcmaes/eigenmvn.h>
+#include <random>
 
 namespace libcmaes
 {
@@ -38,9 +39,9 @@ namespace libcmaes
   class CMAES_EXPORT VDCMAUpdate
   {
   public:
-    template <class TGenoPheno>
+    template <class TGenoPheno, class Rng = std::mt19937>
       static void update(const CMAParameters<TGenoPheno> &parameters,
-			 Eigen::EigenMultivariateNormal<double> &esolver,
+			 Eigen::EigenMultivariateNormal<double, Rng> &esolver,
 			 CMASolutions &solutions);
   };
   
