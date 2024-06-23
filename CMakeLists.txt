@@ -5,6 +5,8 @@ project (libcmaes
   LANGUAGES C CXX
   DESCRIPTION "A C++11 library for stochastic optimization with CMA-ES")
 
+set(CMAKE_CXX_STANDARD 20)
+
 if (NOT DEFINED CMAKE_BUILD_TYPE)
   set (CMAKE_BUILD_TYPE Release CACHE STRING "Build type")
 endif ()
