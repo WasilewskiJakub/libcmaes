@@ -19,6 +19,12 @@
  * along with libcmaes.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <boost/random/additive_combine.hpp>
+#include <boost/random/inversive_congruential.hpp>
+#include <boost/random/lagged_fibonacci.hpp>
+#include <boost/random/mersenne_twister.hpp>
+#include <boost/random/shuffle_order.hpp>
+#include <boost/random/taus88.hpp>
 #include <chrono>
 #include <ctime>
 #include <iomanip>
@@ -28,7 +34,9 @@
 #include <libcmaes/llogging.h>
 #include <libcmaes/opti_err.h>
 #include <random>
-#include <libcmaes/rng_exports.h>
+#include <boost/random.hpp>
+#include <boost/random/sobol.hpp>
+#include <sobol_nd/sobol_nd.hpp>
 
 namespace libcmaes {
 
@@ -525,7 +533,6 @@ void CMAStrategy<TCovarianceUpdate, TGenoPheno, Rng>::plot() {
 
 template class CMAStrategy<CovarianceUpdate, GenoPheno<NoBoundStrategy>, std::mt19937>;
 template class CMAStrategy<CovarianceUpdate, GenoPheno<NoBoundStrategy>, std::mt19937_64>;
-
 template class CMAStrategy<CovarianceUpdate, GenoPheno<NoBoundStrategy>, std::ranlux24_base>;
 template class CMAStrategy<CovarianceUpdate, GenoPheno<NoBoundStrategy>, std::ranlux48_base>;
 template class CMAStrategy<CovarianceUpdate, GenoPheno<NoBoundStrategy>, std::ranlux24>;
@@ -534,6 +541,27 @@ template class CMAStrategy<CovarianceUpdate, GenoPheno<NoBoundStrategy>, std::kn
 template class CMAStrategy<CovarianceUpdate, GenoPheno<NoBoundStrategy>, std::minstd_rand>;
 template class CMAStrategy<CovarianceUpdate, GenoPheno<NoBoundStrategy>, std::minstd_rand0>;
 
+template class CMAStrategy<CovarianceUpdate, GenoPheno<NoBoundStrategy>, boost::random::mt19937>;
+template class CMAStrategy<CovarianceUpdate, GenoPheno<NoBoundStrategy>, boost::random::rand48>;
+template class CMAStrategy<CovarianceUpdate, GenoPheno<NoBoundStrategy>, boost::random::mt19937_64>;
+template class CMAStrategy<CovarianceUpdate, GenoPheno<NoBoundStrategy>, boost::random::ranlux24_base>;
+template class CMAStrategy<CovarianceUpdate, GenoPheno<NoBoundStrategy>, boost::random::ranlux48_base>;
+template class CMAStrategy<CovarianceUpdate, GenoPheno<NoBoundStrategy>, boost::random::ranlux24>;
+template class CMAStrategy<CovarianceUpdate, GenoPheno<NoBoundStrategy>, boost::random::ranlux48>;
+template class CMAStrategy<CovarianceUpdate, GenoPheno<NoBoundStrategy>, boost::random::knuth_b>;
+template class CMAStrategy<CovarianceUpdate, GenoPheno<NoBoundStrategy>, boost::random::ecuyer1988>;
+template class CMAStrategy<CovarianceUpdate, GenoPheno<NoBoundStrategy>, boost::random::kreutzer1986>;
+template class CMAStrategy<CovarianceUpdate, GenoPheno<NoBoundStrategy>, boost::random::taus88>;
+template class CMAStrategy<CovarianceUpdate, GenoPheno<NoBoundStrategy>, boost::random::hellekalek1995>;
+template class CMAStrategy<CovarianceUpdate, GenoPheno<NoBoundStrategy>, boost::random::mt11213b>;
+template class CMAStrategy<CovarianceUpdate, GenoPheno<NoBoundStrategy>, boost::random::lagged_fibonacci607>;
+template class CMAStrategy<CovarianceUpdate, GenoPheno<NoBoundStrategy>, boost::random::lagged_fibonacci44497>;
+template class CMAStrategy<CovarianceUpdate, GenoPheno<NoBoundStrategy>, boost::random::ranlux3>;
+template class CMAStrategy<CovarianceUpdate, GenoPheno<NoBoundStrategy>, boost::random::ranlux64_3>;
+template class CMAStrategy<CovarianceUpdate, GenoPheno<NoBoundStrategy>, boost::random::minstd_rand>;
+template class CMAStrategy<CovarianceUpdate, GenoPheno<NoBoundStrategy>, boost::random::minstd_rand0>;
+
+template class CMAStrategy<CovarianceUpdate, GenoPheno<NoBoundStrategy>, sobol_n<1>>;
 
 template class CMAStrategy<ACovarianceUpdate, GenoPheno<NoBoundStrategy>>;
 template class CMAStrategy<VDCMAUpdate, GenoPheno<NoBoundStrategy>>;

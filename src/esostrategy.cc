@@ -19,6 +19,13 @@
  * along with libcmaes.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <boost/random/additive_combine.hpp>
+#include <boost/random/inversive_congruential.hpp>
+#include <boost/random/lagged_fibonacci.hpp>
+#include <boost/random/mersenne_twister.hpp>
+#include <boost/random/ranlux.hpp>
+#include <boost/random/shuffle_order.hpp>
+#include <boost/random/taus88.hpp>
 #include <libcmaes/libcmaes_config.h>
 #include <libcmaes/esostrategy.h>
 #include <libcmaes/cmaparameters.h> // in order to pre-instanciate template into library.
@@ -28,6 +35,10 @@
 #include <numeric>
 #include <libcmaes/llogging.h>
 #include <random>
+
+#include <boost/random.hpp>
+#include <boost/random/sobol.hpp>
+#include <sobol_nd/sobol_nd.hpp>
 
 #ifdef HAVE_DEBUG
 #include <chrono>
@@ -420,6 +431,32 @@ namespace libcmaes
   template class CMAES_EXPORT ESOStrategy<CMAParameters<GenoPheno<NoBoundStrategy>>,CMASolutions,CMAStopCriteria<GenoPheno<NoBoundStrategy>>,  std::knuth_b>;
   template class CMAES_EXPORT ESOStrategy<CMAParameters<GenoPheno<NoBoundStrategy>>,CMASolutions,CMAStopCriteria<GenoPheno<NoBoundStrategy>>, std::minstd_rand >;
   template class CMAES_EXPORT ESOStrategy<CMAParameters<GenoPheno<NoBoundStrategy>>,CMASolutions,CMAStopCriteria<GenoPheno<NoBoundStrategy>>, std::minstd_rand0 >;
+
+
+  template class CMAES_EXPORT ESOStrategy<CMAParameters<GenoPheno<NoBoundStrategy>>,CMASolutions,CMAStopCriteria<GenoPheno<NoBoundStrategy>>, boost::random::mt19937 >;
+  template class CMAES_EXPORT ESOStrategy<CMAParameters<GenoPheno<NoBoundStrategy>>,CMASolutions,CMAStopCriteria<GenoPheno<NoBoundStrategy>>, boost::random::mt19937_64 >;
+  template class CMAES_EXPORT ESOStrategy<CMAParameters<GenoPheno<NoBoundStrategy>>,CMASolutions,CMAStopCriteria<GenoPheno<NoBoundStrategy>>, boost::random::ranlux24_base >;
+  template class CMAES_EXPORT ESOStrategy<CMAParameters<GenoPheno<NoBoundStrategy>>,CMASolutions,CMAStopCriteria<GenoPheno<NoBoundStrategy>>,  boost::random::ranlux48_base>;
+  template class CMAES_EXPORT ESOStrategy<CMAParameters<GenoPheno<NoBoundStrategy>>,CMASolutions,CMAStopCriteria<GenoPheno<NoBoundStrategy>>, boost::random::ranlux24 >;
+  template class CMAES_EXPORT ESOStrategy<CMAParameters<GenoPheno<NoBoundStrategy>>,CMASolutions,CMAStopCriteria<GenoPheno<NoBoundStrategy>>,  boost::random::ranlux48>;
+  template class CMAES_EXPORT ESOStrategy<CMAParameters<GenoPheno<NoBoundStrategy>>,CMASolutions,CMAStopCriteria<GenoPheno<NoBoundStrategy>>,  boost::random::knuth_b>;
+  template class CMAES_EXPORT ESOStrategy<CMAParameters<GenoPheno<NoBoundStrategy>>,CMASolutions,CMAStopCriteria<GenoPheno<NoBoundStrategy>>, boost::random::minstd_rand >;
+  template class CMAES_EXPORT ESOStrategy<CMAParameters<GenoPheno<NoBoundStrategy>>,CMASolutions,CMAStopCriteria<GenoPheno<NoBoundStrategy>>, boost::random::minstd_rand0 >;
+
+
+  template class CMAES_EXPORT ESOStrategy<CMAParameters<GenoPheno<NoBoundStrategy>>,CMASolutions,CMAStopCriteria<GenoPheno<NoBoundStrategy>>, boost::random::ecuyer1988 >;
+  template class CMAES_EXPORT ESOStrategy<CMAParameters<GenoPheno<NoBoundStrategy>>,CMASolutions,CMAStopCriteria<GenoPheno<NoBoundStrategy>>, boost::random::taus88 >;
+  template class CMAES_EXPORT ESOStrategy<CMAParameters<GenoPheno<NoBoundStrategy>>,CMASolutions,CMAStopCriteria<GenoPheno<NoBoundStrategy>>, boost::random::hellekalek1995 >;
+  template class CMAES_EXPORT ESOStrategy<CMAParameters<GenoPheno<NoBoundStrategy>>,CMASolutions,CMAStopCriteria<GenoPheno<NoBoundStrategy>>, boost::random::kreutzer1986 >;
+  template class CMAES_EXPORT ESOStrategy<CMAParameters<GenoPheno<NoBoundStrategy>>,CMASolutions,CMAStopCriteria<GenoPheno<NoBoundStrategy>>, boost::random::lagged_fibonacci607 >;
+  template class CMAES_EXPORT ESOStrategy<CMAParameters<GenoPheno<NoBoundStrategy>>,CMASolutions,CMAStopCriteria<GenoPheno<NoBoundStrategy>>, boost::random::lagged_fibonacci44497>;
+  template class CMAES_EXPORT ESOStrategy<CMAParameters<GenoPheno<NoBoundStrategy>>,CMASolutions,CMAStopCriteria<GenoPheno<NoBoundStrategy>>, boost::random::ranlux3 >;
+  template class CMAES_EXPORT ESOStrategy<CMAParameters<GenoPheno<NoBoundStrategy>>,CMASolutions,CMAStopCriteria<GenoPheno<NoBoundStrategy>>, boost::random::ranlux64_3>;
+  template class CMAES_EXPORT ESOStrategy<CMAParameters<GenoPheno<NoBoundStrategy>>,CMASolutions,CMAStopCriteria<GenoPheno<NoBoundStrategy>>, boost::random::mt11213b>;
+  template class CMAES_EXPORT ESOStrategy<CMAParameters<GenoPheno<NoBoundStrategy>>,CMASolutions,CMAStopCriteria<GenoPheno<NoBoundStrategy>>, boost::random::rand48>;
+
+  template class CMAES_EXPORT ESOStrategy<CMAParameters<GenoPheno<NoBoundStrategy>>,CMASolutions,CMAStopCriteria<GenoPheno<NoBoundStrategy>>, sobol_n<1>>;
+
 
   template class CMAES_EXPORT ESOStrategy<CMAParameters<GenoPheno<pwqBoundStrategy>>,CMASolutions,CMAStopCriteria<GenoPheno<pwqBoundStrategy>>, std::mt19937 >;
   template class CMAES_EXPORT ESOStrategy<CMAParameters<GenoPheno<NoBoundStrategy,linScalingStrategy>>,CMASolutions,CMAStopCriteria<GenoPheno<NoBoundStrategy,linScalingStrategy>>, std::mt19937 >;
