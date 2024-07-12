@@ -30,7 +30,8 @@
 #include <iostream>
 #include <boost/random.hpp>
 #include <boost/random/sobol.hpp>
-#include <sobol_nd/sobol_nd.hpp>
+#include <super_sobol/super_sobol.h>
+// #include <sobol_nd/sobol_nd.hpp>
 
 namespace libcmaes
 {
@@ -103,41 +104,56 @@ namespace libcmaes
     solutions._xmean = xmean;
   }
 
-  template CMAES_EXPORT void CovarianceUpdate::update(const CMAParameters<GenoPheno<NoBoundStrategy> >&,Eigen::EigenMultivariateNormal<double, std::mt19937>&,CMASolutions&);
-  template CMAES_EXPORT void CovarianceUpdate::update(const CMAParameters<GenoPheno<NoBoundStrategy> >&,Eigen::EigenMultivariateNormal<double, std::mt19937_64>&,CMASolutions&);
-  template CMAES_EXPORT void CovarianceUpdate::update(const CMAParameters<GenoPheno<NoBoundStrategy> >&,Eigen::EigenMultivariateNormal<double, std::ranlux24_base>&,CMASolutions&);
-  template CMAES_EXPORT void CovarianceUpdate::update(const CMAParameters<GenoPheno<NoBoundStrategy> >&,Eigen::EigenMultivariateNormal<double, std::ranlux48_base>&,CMASolutions&);
-  template CMAES_EXPORT void CovarianceUpdate::update(const CMAParameters<GenoPheno<NoBoundStrategy> >&,Eigen::EigenMultivariateNormal<double, std::ranlux48>&,CMASolutions&);
-  template CMAES_EXPORT void CovarianceUpdate::update(const CMAParameters<GenoPheno<NoBoundStrategy> >&,Eigen::EigenMultivariateNormal<double, std::ranlux24>&,CMASolutions&);
-  template CMAES_EXPORT void CovarianceUpdate::update(const CMAParameters<GenoPheno<NoBoundStrategy> >&,Eigen::EigenMultivariateNormal<double, std::knuth_b>&,CMASolutions&);
-  template CMAES_EXPORT void CovarianceUpdate::update(const CMAParameters<GenoPheno<NoBoundStrategy> >&,Eigen::EigenMultivariateNormal<double, std::minstd_rand>&,CMASolutions&);
-  template CMAES_EXPORT void CovarianceUpdate::update(const CMAParameters<GenoPheno<NoBoundStrategy> >&,Eigen::EigenMultivariateNormal<double, std::minstd_rand0>&,CMASolutions&);
+    template CMAES_EXPORT void CovarianceUpdate::update(const CMAParameters<GenoPheno<NoBoundStrategy>> &, Eigen::EigenMultivariateNormal<double, std::mt19937> &, CMASolutions &);
+  template CMAES_EXPORT void CovarianceUpdate::update(const CMAParameters<GenoPheno<NoBoundStrategy>> &, Eigen::EigenMultivariateNormal<double, std::mt19937_64> &, CMASolutions &);
+  template CMAES_EXPORT void CovarianceUpdate::update(const CMAParameters<GenoPheno<NoBoundStrategy>> &, Eigen::EigenMultivariateNormal<double, std::ranlux24_base> &, CMASolutions &);
+  template CMAES_EXPORT void CovarianceUpdate::update(const CMAParameters<GenoPheno<NoBoundStrategy>> &, Eigen::EigenMultivariateNormal<double, std::ranlux48_base> &, CMASolutions &);
+  template CMAES_EXPORT void CovarianceUpdate::update(const CMAParameters<GenoPheno<NoBoundStrategy>> &, Eigen::EigenMultivariateNormal<double, std::ranlux48> &, CMASolutions &);
+  template CMAES_EXPORT void CovarianceUpdate::update(const CMAParameters<GenoPheno<NoBoundStrategy>> &, Eigen::EigenMultivariateNormal<double, std::ranlux24> &, CMASolutions &);
+  template CMAES_EXPORT void CovarianceUpdate::update(const CMAParameters<GenoPheno<NoBoundStrategy>> &, Eigen::EigenMultivariateNormal<double, std::knuth_b> &, CMASolutions &);
+  template CMAES_EXPORT void CovarianceUpdate::update(const CMAParameters<GenoPheno<NoBoundStrategy>> &, Eigen::EigenMultivariateNormal<double, std::minstd_rand> &, CMASolutions &);
+  template CMAES_EXPORT void CovarianceUpdate::update(const CMAParameters<GenoPheno<NoBoundStrategy>> &, Eigen::EigenMultivariateNormal<double, std::minstd_rand0> &, CMASolutions &);
 
+  template CMAES_EXPORT void CovarianceUpdate::update(const CMAParameters<GenoPheno<NoBoundStrategy>> &, Eigen::EigenMultivariateNormal<double, boost::random::mt19937> &, CMASolutions &);
+  template CMAES_EXPORT void CovarianceUpdate::update(const CMAParameters<GenoPheno<NoBoundStrategy>> &, Eigen::EigenMultivariateNormal<double, boost::random::rand48> &, CMASolutions &);
+  template CMAES_EXPORT void CovarianceUpdate::update(const CMAParameters<GenoPheno<NoBoundStrategy>> &, Eigen::EigenMultivariateNormal<double, boost::random::mt19937_64> &, CMASolutions &);
+  template CMAES_EXPORT void CovarianceUpdate::update(const CMAParameters<GenoPheno<NoBoundStrategy>> &, Eigen::EigenMultivariateNormal<double, boost::random::ranlux24_base> &, CMASolutions &);
+  template CMAES_EXPORT void CovarianceUpdate::update(const CMAParameters<GenoPheno<NoBoundStrategy>> &, Eigen::EigenMultivariateNormal<double, boost::random::ranlux48_base> &, CMASolutions &);
+  template CMAES_EXPORT void CovarianceUpdate::update(const CMAParameters<GenoPheno<NoBoundStrategy>> &, Eigen::EigenMultivariateNormal<double, boost::random::ranlux48> &, CMASolutions &);
+  template CMAES_EXPORT void CovarianceUpdate::update(const CMAParameters<GenoPheno<NoBoundStrategy>> &, Eigen::EigenMultivariateNormal<double, boost::random::ranlux24> &, CMASolutions &);
+  template CMAES_EXPORT void CovarianceUpdate::update(const CMAParameters<GenoPheno<NoBoundStrategy>> &, Eigen::EigenMultivariateNormal<double, boost::random::knuth_b> &, CMASolutions &);
+  template CMAES_EXPORT void CovarianceUpdate::update(const CMAParameters<GenoPheno<NoBoundStrategy>> &, Eigen::EigenMultivariateNormal<double, boost::random::minstd_rand> &, CMASolutions &);
+  template CMAES_EXPORT void CovarianceUpdate::update(const CMAParameters<GenoPheno<NoBoundStrategy>> &, Eigen::EigenMultivariateNormal<double, boost::random::minstd_rand0> &, CMASolutions &);
+  template CMAES_EXPORT void CovarianceUpdate::update(const CMAParameters<GenoPheno<NoBoundStrategy>> &, Eigen::EigenMultivariateNormal<double, boost::random::ecuyer1988> &, CMASolutions &);
+  template CMAES_EXPORT void CovarianceUpdate::update(const CMAParameters<GenoPheno<NoBoundStrategy>> &, Eigen::EigenMultivariateNormal<double, boost::random::kreutzer1986> &, CMASolutions &);
+  template CMAES_EXPORT void CovarianceUpdate::update(const CMAParameters<GenoPheno<NoBoundStrategy>> &, Eigen::EigenMultivariateNormal<double, boost::random::taus88> &, CMASolutions &);
+  template CMAES_EXPORT void CovarianceUpdate::update(const CMAParameters<GenoPheno<NoBoundStrategy>> &, Eigen::EigenMultivariateNormal<double, boost::random::hellekalek1995> &, CMASolutions &);
+  template CMAES_EXPORT void CovarianceUpdate::update(const CMAParameters<GenoPheno<NoBoundStrategy>> &, Eigen::EigenMultivariateNormal<double, boost::random::mt11213b> &, CMASolutions &);
+  template CMAES_EXPORT void CovarianceUpdate::update(const CMAParameters<GenoPheno<NoBoundStrategy>> &, Eigen::EigenMultivariateNormal<double, boost::random::lagged_fibonacci607> &, CMASolutions &);
+  template CMAES_EXPORT void CovarianceUpdate::update(const CMAParameters<GenoPheno<NoBoundStrategy>> &, Eigen::EigenMultivariateNormal<double, boost::random::lagged_fibonacci44497> &, CMASolutions &);
+  template CMAES_EXPORT void CovarianceUpdate::update(const CMAParameters<GenoPheno<NoBoundStrategy>> &, Eigen::EigenMultivariateNormal<double, boost::random::ranlux3> &, CMASolutions &);
+  template CMAES_EXPORT void CovarianceUpdate::update(const CMAParameters<GenoPheno<NoBoundStrategy>> &, Eigen::EigenMultivariateNormal<double, boost::random::ranlux64_3> &, CMASolutions &);
 
+  // Moje dodane:----------------
+  template CMAES_EXPORT void CovarianceUpdate::update(const CMAParameters<GenoPheno<NoBoundStrategy>> &, Eigen::EigenMultivariateNormal<double, boost::random::lagged_fibonacci1279> &, CMASolutions &);
+  template CMAES_EXPORT void CovarianceUpdate::update(const CMAParameters<GenoPheno<NoBoundStrategy>> &, Eigen::EigenMultivariateNormal<double, boost::random::lagged_fibonacci2281> &, CMASolutions &);
+  template CMAES_EXPORT void CovarianceUpdate::update(const CMAParameters<GenoPheno<NoBoundStrategy>> &, Eigen::EigenMultivariateNormal<double, boost::random::lagged_fibonacci3217> &, CMASolutions &);
+  template CMAES_EXPORT void CovarianceUpdate::update(const CMAParameters<GenoPheno<NoBoundStrategy>> &, Eigen::EigenMultivariateNormal<double, boost::random::lagged_fibonacci4423> &, CMASolutions &);
+  template CMAES_EXPORT void CovarianceUpdate::update(const CMAParameters<GenoPheno<NoBoundStrategy>> &, Eigen::EigenMultivariateNormal<double, boost::random::lagged_fibonacci9689> &, CMASolutions &);
+  template CMAES_EXPORT void CovarianceUpdate::update(const CMAParameters<GenoPheno<NoBoundStrategy>> &, Eigen::EigenMultivariateNormal<double, boost::random::lagged_fibonacci19937> &, CMASolutions &);
+  template CMAES_EXPORT void CovarianceUpdate::update(const CMAParameters<GenoPheno<NoBoundStrategy>> &, Eigen::EigenMultivariateNormal<double, boost::random::lagged_fibonacci23209> &, CMASolutions &);
 
-  template CMAES_EXPORT void CovarianceUpdate::update(const CMAParameters<GenoPheno<NoBoundStrategy> >&,Eigen::EigenMultivariateNormal<double, boost::random::mt19937>&,CMASolutions&);
-  template CMAES_EXPORT void CovarianceUpdate::update(const CMAParameters<GenoPheno<NoBoundStrategy> >&,Eigen::EigenMultivariateNormal<double, boost::random::rand48>&,CMASolutions&);
-  template CMAES_EXPORT void CovarianceUpdate::update(const CMAParameters<GenoPheno<NoBoundStrategy> >&,Eigen::EigenMultivariateNormal<double, boost::random::mt19937_64>&,CMASolutions&);
-  template CMAES_EXPORT void CovarianceUpdate::update(const CMAParameters<GenoPheno<NoBoundStrategy> >&,Eigen::EigenMultivariateNormal<double, boost::random::ranlux24_base>&,CMASolutions&);
-  template CMAES_EXPORT void CovarianceUpdate::update(const CMAParameters<GenoPheno<NoBoundStrategy> >&,Eigen::EigenMultivariateNormal<double, boost::random::ranlux48_base>&,CMASolutions&);
-  template CMAES_EXPORT void CovarianceUpdate::update(const CMAParameters<GenoPheno<NoBoundStrategy> >&,Eigen::EigenMultivariateNormal<double, boost::random::ranlux48>&,CMASolutions&);
-  template CMAES_EXPORT void CovarianceUpdate::update(const CMAParameters<GenoPheno<NoBoundStrategy> >&,Eigen::EigenMultivariateNormal<double, boost::random::ranlux24>&,CMASolutions&);
-  template CMAES_EXPORT void CovarianceUpdate::update(const CMAParameters<GenoPheno<NoBoundStrategy> >&,Eigen::EigenMultivariateNormal<double, boost::random::knuth_b>&,CMASolutions&);
-  template CMAES_EXPORT void CovarianceUpdate::update(const CMAParameters<GenoPheno<NoBoundStrategy> >&,Eigen::EigenMultivariateNormal<double, boost::random::minstd_rand>&,CMASolutions&);
-  template CMAES_EXPORT void CovarianceUpdate::update(const CMAParameters<GenoPheno<NoBoundStrategy> >&,Eigen::EigenMultivariateNormal<double, boost::random::minstd_rand0>&,CMASolutions&);
-  template CMAES_EXPORT void CovarianceUpdate::update(const CMAParameters<GenoPheno<NoBoundStrategy> >&,Eigen::EigenMultivariateNormal<double, boost::random::ecuyer1988>&,CMASolutions&);
-  template CMAES_EXPORT void CovarianceUpdate::update(const CMAParameters<GenoPheno<NoBoundStrategy> >&,Eigen::EigenMultivariateNormal<double, boost::random::kreutzer1986>&,CMASolutions&);
-  template CMAES_EXPORT void CovarianceUpdate::update(const CMAParameters<GenoPheno<NoBoundStrategy> >&,Eigen::EigenMultivariateNormal<double, boost::random::taus88>&,CMASolutions&);
-  template CMAES_EXPORT void CovarianceUpdate::update(const CMAParameters<GenoPheno<NoBoundStrategy> >&,Eigen::EigenMultivariateNormal<double, boost::random::hellekalek1995>&,CMASolutions&);
-  template CMAES_EXPORT void CovarianceUpdate::update(const CMAParameters<GenoPheno<NoBoundStrategy> >&,Eigen::EigenMultivariateNormal<double, boost::random::mt11213b>&,CMASolutions&);
-  template CMAES_EXPORT void CovarianceUpdate::update(const CMAParameters<GenoPheno<NoBoundStrategy> >&,Eigen::EigenMultivariateNormal<double, boost::random::lagged_fibonacci607>&,CMASolutions&);
-  template CMAES_EXPORT void CovarianceUpdate::update(const CMAParameters<GenoPheno<NoBoundStrategy> >&,Eigen::EigenMultivariateNormal<double, boost::random::lagged_fibonacci44497>&,CMASolutions&);
-  template CMAES_EXPORT void CovarianceUpdate::update(const CMAParameters<GenoPheno<NoBoundStrategy> >&,Eigen::EigenMultivariateNormal<double, boost::random::ranlux3>&,CMASolutions&);
-  template CMAES_EXPORT void CovarianceUpdate::update(const CMAParameters<GenoPheno<NoBoundStrategy> >&,Eigen::EigenMultivariateNormal<double, boost::random::ranlux64_3>&,CMASolutions&);
-  template CMAES_EXPORT void CovarianceUpdate::update(const CMAParameters<GenoPheno<NoBoundStrategy> >&,Eigen::EigenMultivariateNormal<double, sobol_n<1>>&,CMASolutions&);
+  template CMAES_EXPORT void CovarianceUpdate::update(const CMAParameters<GenoPheno<NoBoundStrategy>> &, Eigen::EigenMultivariateNormal<double, boost::random::ranlux4> &, CMASolutions &);
+  template CMAES_EXPORT void CovarianceUpdate::update(const CMAParameters<GenoPheno<NoBoundStrategy>> &, Eigen::EigenMultivariateNormal<double, boost::random::ranlux64_4> &, CMASolutions &);
+  template CMAES_EXPORT void CovarianceUpdate::update(const CMAParameters<GenoPheno<NoBoundStrategy>> &, Eigen::EigenMultivariateNormal<double, boost::random::ranlux64_3_01> &, CMASolutions &);
+  template CMAES_EXPORT void CovarianceUpdate::update(const CMAParameters<GenoPheno<NoBoundStrategy>> &, Eigen::EigenMultivariateNormal<double, boost::random::ranlux4_01> &, CMASolutions &);
+  template CMAES_EXPORT void CovarianceUpdate::update(const CMAParameters<GenoPheno<NoBoundStrategy>> &, Eigen::EigenMultivariateNormal<double, boost::random::ranlux64_4_01> &, CMASolutions &);
+  template CMAES_EXPORT void CovarianceUpdate::update(const CMAParameters<GenoPheno<NoBoundStrategy>> &, Eigen::EigenMultivariateNormal<double, boost::random::ranlux3_01> &, CMASolutions &);
+ //-----------------------------
 
+  template CMAES_EXPORT void CovarianceUpdate::update(const CMAParameters<GenoPheno<NoBoundStrategy>> &, Eigen::EigenMultivariateNormal<double, sobol_d<1>> &, CMASolutions &);
 
-  template CMAES_EXPORT void CovarianceUpdate::update(const CMAParameters<GenoPheno<pwqBoundStrategy> >&,Eigen::EigenMultivariateNormal<double, std::mt19937>&,CMASolutions&);
-  template CMAES_EXPORT void CovarianceUpdate::update(const CMAParameters<GenoPheno<NoBoundStrategy,linScalingStrategy> >&,Eigen::EigenMultivariateNormal<double, std::mt19937>&,CMASolutions&);
-  template CMAES_EXPORT void CovarianceUpdate::update(const CMAParameters<GenoPheno<pwqBoundStrategy,linScalingStrategy> >&,Eigen::EigenMultivariateNormal<double, std::mt19937>&,CMASolutions&);
+  template CMAES_EXPORT void CovarianceUpdate::update(const CMAParameters<GenoPheno<pwqBoundStrategy>> &, Eigen::EigenMultivariateNormal<double, std::mt19937> &, CMASolutions &);
+  template CMAES_EXPORT void CovarianceUpdate::update(const CMAParameters<GenoPheno<NoBoundStrategy, linScalingStrategy>> &, Eigen::EigenMultivariateNormal<double, std::mt19937> &, CMASolutions &);
+  template CMAES_EXPORT void CovarianceUpdate::update(const CMAParameters<GenoPheno<pwqBoundStrategy, linScalingStrategy>> &, Eigen::EigenMultivariateNormal<double, std::mt19937> &, CMASolutions &);
 }

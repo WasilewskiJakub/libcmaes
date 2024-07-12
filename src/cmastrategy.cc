@@ -36,7 +36,8 @@
 #include <random>
 #include <boost/random.hpp>
 #include <boost/random/sobol.hpp>
-#include <sobol_nd/sobol_nd.hpp>
+#include <super_sobol/super_sobol.h>
+// #include <sobol_nd/sobol_nd.hpp>
 
 namespace libcmaes {
 
@@ -561,7 +562,24 @@ template class CMAStrategy<CovarianceUpdate, GenoPheno<NoBoundStrategy>, boost::
 template class CMAStrategy<CovarianceUpdate, GenoPheno<NoBoundStrategy>, boost::random::minstd_rand>;
 template class CMAStrategy<CovarianceUpdate, GenoPheno<NoBoundStrategy>, boost::random::minstd_rand0>;
 
-template class CMAStrategy<CovarianceUpdate, GenoPheno<NoBoundStrategy>, sobol_n<1>>;
+
+// Moje dodane:----------------
+  template class CMAStrategy<CovarianceUpdate, GenoPheno<NoBoundStrategy>, boost::random::lagged_fibonacci1279>;
+  template class CMAStrategy<CovarianceUpdate, GenoPheno<NoBoundStrategy>, boost::random::lagged_fibonacci2281>;
+  template class CMAStrategy<CovarianceUpdate, GenoPheno<NoBoundStrategy>, boost::random::lagged_fibonacci3217>;
+  template class CMAStrategy<CovarianceUpdate, GenoPheno<NoBoundStrategy>, boost::random::lagged_fibonacci4423>;
+  template class CMAStrategy<CovarianceUpdate, GenoPheno<NoBoundStrategy>, boost::random::lagged_fibonacci9689>;
+  template class CMAStrategy<CovarianceUpdate, GenoPheno<NoBoundStrategy>, boost::random::lagged_fibonacci19937>;
+  template class CMAStrategy<CovarianceUpdate, GenoPheno<NoBoundStrategy>, boost::random::lagged_fibonacci23209>;
+
+  template class CMAStrategy<CovarianceUpdate, GenoPheno<NoBoundStrategy>, boost::random::ranlux4>;
+  template class CMAStrategy<CovarianceUpdate, GenoPheno<NoBoundStrategy>, boost::random::ranlux64_4>;
+  template class CMAStrategy<CovarianceUpdate, GenoPheno<NoBoundStrategy>, boost::random::ranlux3_01>;
+  template class CMAStrategy<CovarianceUpdate, GenoPheno<NoBoundStrategy>, boost::random::ranlux4_01>;
+  template class CMAStrategy<CovarianceUpdate, GenoPheno<NoBoundStrategy>, boost::random::ranlux64_3_01>;
+  template class CMAStrategy<CovarianceUpdate, GenoPheno<NoBoundStrategy>, boost::random::ranlux64_4_01>;
+  template class CMAStrategy<CovarianceUpdate, GenoPheno<NoBoundStrategy>, sobol_d<1>>;
+  //-----------------------------
 
 template class CMAStrategy<ACovarianceUpdate, GenoPheno<NoBoundStrategy>>;
 template class CMAStrategy<VDCMAUpdate, GenoPheno<NoBoundStrategy>>;
